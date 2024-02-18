@@ -12,14 +12,15 @@ import { Actor } from "./models/users.model";
 @Module({
  imports: [
   SequelizeModule.forRoot({
-   dialect: "mysql",
-   host: "localhost",
-   port: 3306,
    username: "root",
    password: "Akhil123#",
-   database: "sakila",
+   database: "todos",
+   host: "mysql", // Use the service name as the host
+   port: 3306, // MySQL default port
+   dialect: "mysql",
    models: [Actor],
    synchronize: true,
+   autoLoadModels: true,
   }),
   ProductsModule,
   OrdersModule,
@@ -35,4 +36,19 @@ import { Actor } from "./models/users.model";
   },
  ],
 })
-export class AppModule {}
+export class AppModule {
+ constructor() {
+  const options = SequelizeModule.forRoot({
+   username: "root",
+   password: "Akhil123#",
+   database: "todos",
+   host: "mysql", // Use the service name as the host
+   port: 3306, // MySQL default port
+   dialect: "mysql",
+   models: [Actor],
+   synchronize: true,
+  });
+
+  console.log("Database connection URL:", `mysql://${options.username}:${options.password}@${options.host}:${options.port}/${options.database}`);
+ }
+}

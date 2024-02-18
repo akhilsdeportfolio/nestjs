@@ -30,7 +30,14 @@ export class ProductsService {
     }
 
     async getAllProducts(): Promise<Actor[]> {
-        return this.userModel.findAll()
+
+        try {
+            return this.userModel.findAll()
+        }
+        catch (e) {
+            console.error("erroe", e);
+        }
+
     }
 
     async getProduct(id): Promise<Actor> {
