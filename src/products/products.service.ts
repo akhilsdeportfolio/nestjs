@@ -2,43 +2,45 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Prodcut } from './product.model';
+import { InjectRepository } from '@nestjs/typeorm';
+import { DataSource, Repository } from 'typeorm';
+import { User } from 'src/entities/user/user.entity';
+import { InjectModel } from '@nestjs/sequelize';
+import { Actor } from 'src/models/users.model';
+import { UUID } from 'sequelize';
 
 @Injectable()
 export class ProductsService {
     products: Prodcut[] = [];
 
-    insertProduct(title: string, description: string, price: number) {
+    constructor(@InjectModel(Actor) private userModel: typeof Actor) {
+
+    }
+
+    async insertProduct(title: string, description: string, price: number) {
         const product = new Prodcut(
-            new Date().toISOString(),
+            Math.floor(Math.random()),
             title,
             description,
-            price);
-        this.products.push(product)
-        return product;
+        );
+
+        console.log({ ...product })
+        const resp = await this.userModel.create({ ...product, });
+        return resp;
     }
 
-    getAllProducts(): Prodcut[] {
-        return [...this.products];
-    }
-    getProduct(id: string) {
-        const prod = this.products.find((product) => product.id === id)
-        if (!prod) {
-            throw new NotFoundException('product not found')
-        }
-
-        return { ...prod };
+    async getAllProducts(): Promise<Actor[]> {
+        return this.userModel.findAll()
     }
 
-    update(id: string, data: Prodcut) {
-        const prodIndex = this.products.findIndex((product) => product.id === id)
-        const prod = this.products[prodIndex];
-        if (!prod) {
-            throw new NotFoundException('product not found')
-        }
+    async getProduct(id): Promise<Actor> {
+        return this.userModel.findOne({ where: { actor_id: id } })
 
-        this.products[prodIndex] = data;
-
-
-        return { ...this.products[prodIndex] }
     }
+
+    async update(id, data): Promise<Actor> {
+        return this.userModel.findOne({});
+    }
+
+
 }

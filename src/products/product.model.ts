@@ -1,10 +1,9 @@
 export class Prodcut {
- constructor(
-  public id: string,
-  public title: string,
-  public description: string,
-  public price: number,
- ) {
-  console.log("Product");
- }
+    constructor(
+        public actor_id: number,
+        public first_name: string,
+        public last_name: string,
+    ) {
+        console.log("Product");
+    }
 }
