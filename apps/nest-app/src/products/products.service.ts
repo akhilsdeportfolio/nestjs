@@ -4,9 +4,9 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { Prodcut } from './product.model';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DataSource, Repository } from 'typeorm';
-import { User } from 'src/entities/user/user.entity';
+import { User } from 'apps/nest-app/src/entities/user/user.entity';
 import { InjectModel } from '@nestjs/sequelize';
-import { Actor } from 'src/models/users.model';
+import { Actor } from 'apps/nest-app/src/models/users.model';
 import { UUID } from 'sequelize';
 
 @Injectable()
